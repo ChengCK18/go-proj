@@ -71,7 +71,7 @@ func GetFromMongoDB(name string)([]model.SampleData,error){
 
 	var filter bson.D
 	if name != "" {
-		filter = bson.D{{"name",name}}
+		filter = bson.D{{Key:"name",Value:name}}
 	}else{
 		filter = bson.D{}
 	}
