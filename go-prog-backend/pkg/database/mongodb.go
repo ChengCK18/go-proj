@@ -9,15 +9,12 @@ import (
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/ChengCK18/go-proj-backend/pkg/model"
 )
 
-type SampleData struct {
-	Name string // need to be caps to be exported
-	Age  int    // need to be caps to be exported
-}
 
 var client *mongo.Client
-
 func init() {
 
 	err := godotenv.Load("../../.env")
@@ -58,11 +55,10 @@ func init() {
 	// }()
 }
 
-func InsertIntoMongoDB(data SampleData) error {
+func InsertIntoMongoDB(data model.SampleData) error {
 	collection := client.Database("testgolang").Collection("golangdb1")
 
 	// Insert data into MongoDB
 	_, err := collection.InsertOne(context.TODO(), data)
-	fmt.Println("geeee", err)
 	return err
 }
