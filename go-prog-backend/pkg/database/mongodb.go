@@ -68,12 +68,19 @@ func InsertIntoMongoDB(data model.SampleData) error {
 func GetFromMongoDB(name string)([]model.SampleData,error){
 	collection:= client.Database("testgolang").Collection("golangdb1")
 
-	filter := bson.D{{"name",name}}
+
+	var filter bson.D
+	if name != "" {
+		filter = bson.D{{"name",name}}
+	}else{
+		filter = bson.D{}
+	}
+	
 
 	var results []model.SampleData
 
 	fmt.Println(name,"hereeee")
-	// Execute the query and retrieve a cursor
+	// Execute the query and retrieve a cursor. If err != nil return the error
 	cursor, err := collection.Find(context.TODO(), filter)
 	if err != nil {
 		return results, err
@@ -82,8 +89,8 @@ func GetFromMongoDB(name string)([]model.SampleData,error){
 	// Defer closing the cursor to ensure it is closed when the function returns
     defer cursor.Close(context.TODO())
 
-    // Decode all documents into the results slice
-    if err := cursor.All(context.TODO(), &results); err != nil {
+    // Decode all documents into the results slice. If err != nil return the error
+    if err := cursor.All(context.TODO(), &results); err != nil { 
         return results, err
     }
 

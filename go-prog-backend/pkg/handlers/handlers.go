@@ -62,7 +62,9 @@ func HelloHandlerGet(w http.ResponseWriter, r *http.Request){
 	
 
 	results, _ := database.GetFromMongoDB(name)
-	fmt.Println(results)
+	for _, result := range results {
+        fmt.Printf("Name: %s, Age: %d\n", result.Name, result.Age)
+    }
 }
 
 func HelloHandlerPost(w http.ResponseWriter, r *http.Request) {
